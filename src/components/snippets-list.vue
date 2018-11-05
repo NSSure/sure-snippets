@@ -4,15 +4,13 @@
       <thead>
         <tr>
           <th class="w-30">Name</th>
-          <th class="w-10">Shortcut</th>
-          <th class="w-15">Language</th>
+          <th class="w-25">Language</th>
           <th class="w-20"></th>
         </tr>
       </thead>
       <tbody>
         <tr v-for="snippet of snippets" :key="snippet.id">
           <td>{{snippet.name}}</td>
-          <td>{{snippet.shortcut}}</td>
           <td>{{snippet.language}}</td>
           <td>
             <div class="float-right">
