@@ -14,6 +14,7 @@ export default {
     TopMenu
   },
   created: function() {
+    this.$sureToast.show('test')
     this.$store.dispatch("cacheSnippets");
   }
 };

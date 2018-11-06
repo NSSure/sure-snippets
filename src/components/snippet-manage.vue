@@ -4,7 +4,6 @@
         <button type="button" class="btn btn-secondary mr-2" v-on:click="clear()"><i class="fa fa-plus"></i> New</button>
         <button type="button" class="btn btn-secondary mr-2" v-on:click="copy()">Copy</button>
         <button type="button" class="btn btn-secondary mr-2" v-on:click="save()">Save</button>
-        <button type="button" class="btn btn-secondary mr-2" v-on:click="alert('test')" data-toggle="modal" data-target="#preview-modal">Preview</button>
     </div>
     <form>
         <div class="form-group mr-2">
@@ -15,45 +14,24 @@
             <label>Prefix (Defines Intellisense autocompletion)</label>
             <input type="text" class="form-control" v-model="snippet.prefix" placeholder="Snippet Prefix" />
         </div>
-        <div class="row mb-3">
-            <div class="col">
-              <button type="button" class="btn btn-secondary mr-2" v-on:click="copy()">Snippet Generator</button>
-              <button type="button" class="btn btn-secondary mr-2" v-on:click="copy()">Manual Format</button>
-            </div>
+        <div class="form-group mr-2">
+            <label>Description</label>
+            <input type="text" class="form-control" v-model="snippet.description" placeholder="Snippet Description" />
         </div>
         <div class="row mb-3">
             <div class="col">
                 <label>Enter your code contents here</label>&nbsp;&nbsp;
-                <select id="-mode" @change="editor.session.setMode(mode)" v-model="mode"><option value="ace/mode/abap">ABAP</option><option value="ace/mode/abc">ABC</option><option value="ace/mode/actionscript">ActionScript</option><option value="ace/mode/ada">ADA</option><option value="ace/mode/apache_conf">Apache Conf</option><option value="ace/mode/asciidoc">AsciiDoc</option><option value="ace/mode/asl">ASL</option><option value="ace/mode/assembly_x86">Assembly x86</option><option value="ace/mode/autohotkey">AutoHotKey</option><option value="ace/mode/batchfile">BatchFile</option><option value="ace/mode/bro">Bro</option><option value="ace/mode/c_cpp">C and C++</option><option value="ace/mode/c9search">C9Search</option><option value="ace/mode/cirru">Cirru</option><option value="ace/mode/clojure">Clojure</option><option value="ace/mode/cobol">Cobol</option><option value="ace/mode/coffee">CoffeeScript</option><option value="ace/mode/coldfusion">ColdFusion</option><option value="ace/mode/csharp">C#</option><option value="ace/mode/csound_document">Csound Document</option><option value="ace/mode/csound_orchestra">Csound</option><option value="ace/mode/csound_score">Csound Score</option><option value="ace/mode/css">CSS</option><option value="ace/mode/curly">Curly</option><option value="ace/mode/d">D</option><option value="ace/mode/dart">Dart</option><option value="ace/mode/diff">Diff</option><option value="ace/mode/dockerfile">Dockerfile</option><option value="ace/mode/dot">Dot</option><option value="ace/mode/drools">Drools</option><option value="ace/mode/edifact">Edifact</option><option value="ace/mode/eiffel">Eiffel</option><option value="ace/mode/ejs">EJS</option><option value="ace/mode/elixir">Elixir</option><option value="ace/mode/elm">Elm</option><option value="ace/mode/erlang">Erlang</option><option value="ace/mode/forth">Forth</option><option value="ace/mode/fortran">Fortran</option><option value="ace/mode/fsharp">FSharp</option><option value="ace/mode/ftl">FreeMarker</option><option value="ace/mode/gcode">Gcode</option><option value="ace/mode/gherkin">Gherkin</option><option value="ace/mode/gitignore">Gitignore</option><option value="ace/mode/glsl">Glsl</option><option value="ace/mode/gobstones">Gobstones</option><option value="ace/mode/golang">Go</option><option value="ace/mode/graphqlschema">GraphQLSchema</option><option value="ace/mode/groovy">Groovy</option><option value="ace/mode/haml">HAML</option><option value="ace/mode/handlebars">Handlebars</option><option value="ace/mode/haskell">Haskell</option><option value="ace/mode/haskell_cabal">Haskell Cabal</option><option value="ace/mode/haxe">haXe</option><option value="ace/mode/hjson">Hjson</option><option value="ace/mode/html">HTML</option><option value="ace/mode/html_elixir">HTML (Elixir)</option><option value="ace/mode/html_ruby">HTML (Ruby)</option><option value="ace/mode/ini">INI</option><option value="ace/mode/io">Io</option><option value="ace/mode/jack">Jack</option><option value="ace/mode/jade">Jade</option><option value="ace/mode/java">Java</option><option value="ace/mode/javascript">JavaScript</option><option value="ace/mode/json">JSON</option><option value="ace/mode/jsoniq">JSONiq</option><option value="ace/mode/jsp">JSP</option><option value="ace/mode/jssm">JSSM</option><option value="ace/mode/jsx">JSX</option><option value="ace/mode/julia">Julia</option><option value="ace/mode/kotlin">Kotlin</option><option value="ace/mode/latex">LaTeX</option><option value="ace/mode/less">LESS</option><option value="ace/mode/liquid">Liquid</option><option value="ace/mode/lisp">Lisp</option><option value="ace/mode/livescript">LiveScript</option><option value="ace/mode/logiql">LogiQL</option><option value="ace/mode/lsl">LSL</option><option value="ace/mode/lua">Lua</option><option value="ace/mode/luapage">LuaPage</option><option value="ace/mode/lucene">Lucene</option><option value="ace/mode/makefile">Makefile</option><option value="ace/mode/markdown">Markdown</option><option value="ace/mode/mask">Mask</option><option value="ace/mode/matlab">MATLAB</option><option value="ace/mode/maze">Maze</option><option value="ace/mode/mel">MEL</option><option value="ace/mode/mixal">MIXAL</option><option value="ace/mode/mushcode">MUSHCode</option><option value="ace/mode/mysql">MySQL</option><option value="ace/mode/nix">Nix</option><option value="ace/mode/nsis">NSIS</option><option value="ace/mode/objectivec">Objective-C</option><option value="ace/mode/ocaml">OCaml</option><option value="ace/mode/pascal">Pascal</option><option value="ace/mode/perl">Perl</option><option value="ace/mode/pgsql">pgSQL</option><option value="ace/mode/php_laravel_blade">PHP (Blade Template)</option><option value="ace/mode/php">PHP</option><option value="ace/mode/puppet">Puppet</option><option value="ace/mode/pig">Pig</option><option value="ace/mode/powershell">Powershell</option><option value="ace/mode/praat">Praat</option><option value="ace/mode/prolog">Prolog</option><option value="ace/mode/properties">Properties</option><option value="ace/mode/protobuf">Protobuf</option><option value="ace/mode/python">Python</option><option value="ace/mode/r">R</option><option value="ace/mode/razor">Razor</option><option value="ace/mode/rdoc">RDoc</option><option value="ace/mode/red">Red</option><option value="ace/mode/rhtml">RHTML</option><option value="ace/mode/rst">RST</option><option value="ace/mode/ruby">Ruby</option><option value="ace/mode/rust">Rust</option><option value="ace/mode/sass">SASS</option><option value="ace/mode/scad">SCAD</option><option value="ace/mode/scala">Scala</option><option value="ace/mode/scheme">Scheme</option><option value="ace/mode/scss">SCSS</option><option value="ace/mode/sh">SH</option><option value="ace/mode/sjs">SJS</option><option value="ace/mode/slim">Slim</option><option value="ace/mode/smarty">Smarty</option><option value="ace/mode/snippets">snippets</option><option value="ace/mode/soy_template">Soy Template</option><option value="ace/mode/space">Space</option><option value="ace/mode/sql">SQL</option><option value="ace/mode/sqlserver">SQLServer</option><option value="ace/mode/stylus">Stylus</option><option value="ace/mode/svg">SVG</option><option value="ace/mode/swift">Swift</option><option value="ace/mode/tcl">Tcl</option><option value="ace/mode/terraform">Terraform</option><option value="ace/mode/tex">Tex</option><option value="ace/mode/text">Text</option><option value="ace/mode/textile">Textile</option><option value="ace/mode/toml">Toml</option><option value="ace/mode/tsx">TSX</option><option value="ace/mode/twig">Twig</option><option value="ace/mode/typescript">Typescript</option><option value="ace/mode/vala">Vala</option><option value="ace/mode/vbscript">VBScript</option><option value="ace/mode/velocity">Velocity</option><option value="ace/mode/verilog">Verilog</option><option value="ace/mode/vhdl">VHDL</option><option value="ace/mode/wollok">Wollok</option><option value="ace/mode/xml">XML</option><option value="ace/mode/xquery">XQuery</option><option value="ace/mode/yaml">YAML</option><option value="ace/mode/django">Django</option></select>
-                <div id="javascript-editor"></div> 
+                <select id="mode" @change="editor.session.setMode(mode)" v-model="mode"><option value="ace/mode/abap">ABAP</option><option value="ace/mode/abc">ABC</option><option value="ace/mode/actionscript">ActionScript</option><option value="ace/mode/ada">ADA</option><option value="ace/mode/apache_conf">Apache Conf</option><option value="ace/mode/asciidoc">AsciiDoc</option><option value="ace/mode/asl">ASL</option><option value="ace/mode/assembly_x86">Assembly x86</option><option value="ace/mode/autohotkey">AutoHotKey</option><option value="ace/mode/batchfile">BatchFile</option><option value="ace/mode/bro">Bro</option><option value="ace/mode/c_cpp">C and C++</option><option value="ace/mode/c9search">C9Search</option><option value="ace/mode/cirru">Cirru</option><option value="ace/mode/clojure">Clojure</option><option value="ace/mode/cobol">Cobol</option><option value="ace/mode/coffee">CoffeeScript</option><option value="ace/mode/coldfusion">ColdFusion</option><option value="ace/mode/csharp">C#</option><option value="ace/mode/csound_document">Csound Document</option><option value="ace/mode/csound_orchestra">Csound</option><option value="ace/mode/csound_score">Csound Score</option><option value="ace/mode/css">CSS</option><option value="ace/mode/curly">Curly</option><option value="ace/mode/d">D</option><option value="ace/mode/dart">Dart</option><option value="ace/mode/diff">Diff</option><option value="ace/mode/dockerfile">Dockerfile</option><option value="ace/mode/dot">Dot</option><option value="ace/mode/drools">Drools</option><option value="ace/mode/edifact">Edifact</option><option value="ace/mode/eiffel">Eiffel</option><option value="ace/mode/ejs">EJS</option><option value="ace/mode/elixir">Elixir</option><option value="ace/mode/elm">Elm</option><option value="ace/mode/erlang">Erlang</option><option value="ace/mode/forth">Forth</option><option value="ace/mode/fortran">Fortran</option><option value="ace/mode/fsharp">FSharp</option><option value="ace/mode/ftl">FreeMarker</option><option value="ace/mode/gcode">Gcode</option><option value="ace/mode/gherkin">Gherkin</option><option value="ace/mode/gitignore">Gitignore</option><option value="ace/mode/glsl">Glsl</option><option value="ace/mode/gobstones">Gobstones</option><option value="ace/mode/golang">Go</option><option value="ace/mode/graphqlschema">GraphQLSchema</option><option value="ace/mode/groovy">Groovy</option><option value="ace/mode/haml">HAML</option><option value="ace/mode/handlebars">Handlebars</option><option value="ace/mode/haskell">Haskell</option><option value="ace/mode/haskell_cabal">Haskell Cabal</option><option value="ace/mode/haxe">haXe</option><option value="ace/mode/hjson">Hjson</option><option value="ace/mode/html">HTML</option><option value="ace/mode/html_elixir">HTML (Elixir)</option><option value="ace/mode/html_ruby">HTML (Ruby)</option><option value="ace/mode/ini">INI</option><option value="ace/mode/io">Io</option><option value="ace/mode/jack">Jack</option><option value="ace/mode/jade">Jade</option><option value="ace/mode/java">Java</option><option value="ace/mode/javascript">JavaScript</option><option value="ace/mode/json">JSON</option><option value="ace/mode/jsoniq">JSONiq</option><option value="ace/mode/jsp">JSP</option><option value="ace/mode/jssm">JSSM</option><option value="ace/mode/jsx">JSX</option><option value="ace/mode/julia">Julia</option><option value="ace/mode/kotlin">Kotlin</option><option value="ace/mode/latex">LaTeX</option><option value="ace/mode/less">LESS</option><option value="ace/mode/liquid">Liquid</option><option value="ace/mode/lisp">Lisp</option><option value="ace/mode/livescript">LiveScript</option><option value="ace/mode/logiql">LogiQL</option><option value="ace/mode/lsl">LSL</option><option value="ace/mode/lua">Lua</option><option value="ace/mode/luapage">LuaPage</option><option value="ace/mode/lucene">Lucene</option><option value="ace/mode/makefile">Makefile</option><option value="ace/mode/markdown">Markdown</option><option value="ace/mode/mask">Mask</option><option value="ace/mode/matlab">MATLAB</option><option value="ace/mode/maze">Maze</option><option value="ace/mode/mel">MEL</option><option value="ace/mode/mixal">MIXAL</option><option value="ace/mode/mushcode">MUSHCode</option><option value="ace/mode/mysql">MySQL</option><option value="ace/mode/nix">Nix</option><option value="ace/mode/nsis">NSIS</option><option value="ace/mode/objectivec">Objective-C</option><option value="ace/mode/ocaml">OCaml</option><option value="ace/mode/pascal">Pascal</option><option value="ace/mode/perl">Perl</option><option value="ace/mode/pgsql">pgSQL</option><option value="ace/mode/php_laravel_blade">PHP (Blade Template)</option><option value="ace/mode/php">PHP</option><option value="ace/mode/puppet">Puppet</option><option value="ace/mode/pig">Pig</option><option value="ace/mode/powershell">Powershell</option><option value="ace/mode/praat">Praat</option><option value="ace/mode/prolog">Prolog</option><option value="ace/mode/properties">Properties</option><option value="ace/mode/protobuf">Protobuf</option><option value="ace/mode/python">Python</option><option value="ace/mode/r">R</option><option value="ace/mode/razor">Razor</option><option value="ace/mode/rdoc">RDoc</option><option value="ace/mode/red">Red</option><option value="ace/mode/rhtml">RHTML</option><option value="ace/mode/rst">RST</option><option value="ace/mode/ruby">Ruby</option><option value="ace/mode/rust">Rust</option><option value="ace/mode/sass">SASS</option><option value="ace/mode/scad">SCAD</option><option value="ace/mode/scala">Scala</option><option value="ace/mode/scheme">Scheme</option><option value="ace/mode/scss">SCSS</option><option value="ace/mode/sh">SH</option><option value="ace/mode/sjs">SJS</option><option value="ace/mode/slim">Slim</option><option value="ace/mode/smarty">Smarty</option><option value="ace/mode/snippets">snippets</option><option value="ace/mode/soy_template">Soy Template</option><option value="ace/mode/space">Space</option><option value="ace/mode/sql">SQL</option><option value="ace/mode/sqlserver">SQLServer</option><option value="ace/mode/stylus">Stylus</option><option value="ace/mode/svg">SVG</option><option value="ace/mode/swift">Swift</option><option value="ace/mode/tcl">Tcl</option><option value="ace/mode/terraform">Terraform</option><option value="ace/mode/tex">Tex</option><option value="ace/mode/text">Text</option><option value="ace/mode/textile">Textile</option><option value="ace/mode/toml">Toml</option><option value="ace/mode/tsx">TSX</option><option value="ace/mode/twig">Twig</option><option value="ace/mode/typescript">Typescript</option><option value="ace/mode/vala">Vala</option><option value="ace/mode/vbscript">VBScript</option><option value="ace/mode/velocity">Velocity</option><option value="ace/mode/verilog">Verilog</option><option value="ace/mode/vhdl">VHDL</option><option value="ace/mode/wollok">Wollok</option><option value="ace/mode/xml">XML</option><option value="ace/mode/xquery">XQuery</option><option value="ace/mode/yaml">YAML</option><option value="ace/mode/django">Django</option></select>
+                <div id="snippet-editor"></div> 
             </div>
         </div>
         <div class="row">
             <div class="col">
-                <label>Formatted Preview</label>
-                <pre v-highlightjs="templateJson"><code class="json"></code></pre>
+                <label>Formatted Snippet Output</label>
+                <div id="json-editor"></div> 
             </div>
         </div>
     </form>
-    <div class="modal" id="preview-modal" tabindex="-1" role="dialog">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-body">
-            <button class="btn btn-secondary mr-2" v-on:click="copy(snippet)" title="Copy to clipboard"><i class="fa fa-copy"></i></button>
-            <button class="btn btn-danger mr-2" v-on:click="$snippet.export(snippet)" title="Download snippet template"><i class="fa fa-download"></i></button>
-            <pre v-highlightjs style="agate">
-              <code class="json">
-"${name}": {
-    "prefix": "${prefix}",
-    "description": "${description}",
-    "body": [${bodyComponents}]
-}
-              </code>
-            </pre>
-          </div>
-        </div>
-      </div>
-    </div>
   </div>
 </template>
 
@@ -70,26 +48,38 @@ export default {
     return {
       templateJson: "",
       string: "",
-      editor: null
+      snippetEditor: null,
+      jsonEditor: null,
+      mode: "ace/mode/javascript"
     };
   },
   mounted() {
-    this.editor = ace.edit(null, {
-      maxLines: 50,
-      minLines: 10,
-      value: "var hello = 'world'" + "\n",
-      mode: "ace/mode/javascript",
-      bug: 1
-    });
-
-    this.editor.setTheme("ace/theme/chaos");
-
-    var element = document.getElementById('javascript-editor');
-    element.appendChild(this.editor.container)
+    this.snippetEditor = this.buildEditor("snippet-editor", "ace/mode/javascript", "var hello = 'world'" + "\n");
+    this.jsonEditor = this.buildEditor("json-editor" ,"ace/mode/json");
   },
   methods: {
-    save: function() {
-      this.snippet.content = this.editor.getValue();
+    buildEditor (elementId, mode, defaultValue) {
+      let editor = ace.edit(null, {
+        maxLines: 15,
+        minLines: 15 ,
+        value: defaultValue,
+        mode: mode,
+        bug: 1,
+        theme: "ace/theme/chaos",
+        showPrintMargin: false,
+        highlightActiveLine: false
+      });
+
+      let element = document.getElementById(elementId);
+      element.appendChild(editor.container);
+
+      return editor
+    },
+    save () {
+      this.snippet.content = this.snippetEditor.getValue();
+      console.log(this.snippet.content);
+      this.snippet.content = this.snippet.content.replace(/"/g, "'");
+      this.snippet.language = this.mode.split('/')[2].toUpperCase();
 
       if (!this.snippet.id) {
         this.$store.dispatch("addSnippet", this.snippet);
@@ -100,11 +90,13 @@ export default {
 
       this.templateJson = this.$snippet.generate(
         this.snippet.name,
-        this.snippet.shortcut,
+        this.snippet.prefix,
         "Snippet description",
         "JavaScript",
         this.snippet.content
       );
+
+      this.jsonEditor.setValue(this.templateJson, -1);
 
       this.$popup.show(
         `${this.snippet.name} snippet added successfully.`,
@@ -122,6 +114,8 @@ export default {
     },
     clear() {
       this.snippet = new Snippet();
+      this.snippetEditor.setValue();
+      this.jsonEditor.setValue();
     }
   }
 };

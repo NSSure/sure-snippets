@@ -1,7 +1,7 @@
 const SnippetGenerator = {
     install(Vue) {
         Vue.prototype.$snippet = {
-            generate: function(name, shortcut, description, language, body) {
+            generate: function(name, prefix, description, language, body) {
                 let bodyComponents = [];
 
                 body.split("\n").forEach(component => {
@@ -11,7 +11,7 @@ const SnippetGenerator = {
                 let template =
 `{
     "${name}": {
-        "prefix": "${shortcut}",
+        "prefix": "${prefix}",
         "description": "${description}",
         "scope": "${language}",
         "body": [${bodyComponents}]
