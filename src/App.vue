@@ -14,8 +14,8 @@ export default {
     TopMenu
   },
   created: function() {
-    this.$sureToast.show('test')
-    this.$store.dispatch("cacheSnippets");
+    this.$sureToast.show('Welcome to Sure Snippets. Get started creating efficent snippets!', { theme: 'success' });
+    this.$store.dispatch('setCachedSnippets');
   }
 };
 </script>

@@ -1,21 +1,30 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import db from './db';
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    snippet: {},
     snippets: []
   },
   getters: {
-    getSnippets: state => state.snippets,
-    listAllSnippets: (state) => () => {
-      console.log(state);
-      return db.snippets.toArray();
-    }
+
+  },
+  actions: {
+    setSnippet: ({commit}, snippet) => { commit('setSnippet',  snippet) },
+    addSnippet: ({commit}, snippet) => { commit('addSnippet',  snippet) },
+    removeSnippet: ({commit}, snippet) => { commit('removeSnippet',  snippet) },
+    updateSnippet: ({commit}, snippet) => { commit('updateSnippet',  snippet) },
+    cacheSnippets: ({commit}) => { commit('cacheSnippets') },
+    listAllSnippets: ({commit}) => { commit('listAllSnippets') },
+    clearSnippets: ({commit}) => { commit('clearSnippets') },
+    setCachedSnippets: ({commit}) => { commit('setCachedSnippets') },
   },
   mutations: {
+    setSnippet(state, snippet) {
+      state.snippet = snippet;
+    },
     addSnippet(state, snippet) {
       if(!state.snippets) {
         state.snippets = [];
@@ -23,9 +32,7 @@ export default new Vuex.Store({
 
       state.snippets.push(snippet);
 
-      db.snippets.add(snippet).catch((error) => {
-        console.error(error);
-      });
+      localStorage.setItem('snippets', JSON.stringify(state.snippets));
     },
     removeSnippet(state, snippet) {
       for(let i = 0; i < state.snippets.length; i++) {
@@ -35,9 +42,11 @@ export default new Vuex.Store({
         }
       }
 
-      db.snippets.delete(snippet.id).catch((error) => {
-        console.error(error);
-      });
+      let snippets = JSON.parse(localStorage.getItem('snippets'));
+      let index = snippets.findIndex(x => x.name === snippet.name);
+      snippets.splice(index, 1);
+
+      localStorage.setItem('snippets', JSON.stringify(snippets));
     },
     updateSnippet(state, snippet) {
       for(let i = 0; i < state.snippets.length; i++) {
@@ -47,30 +56,20 @@ export default new Vuex.Store({
         }
       }
 
-      db.snippets.put(snippet).catch((error) => {
-        console.error(error);
-      });
-    },
-    cacheSnippets(state) {
-      db.snippets.toArray().then((snippets) => {
-        state.snippets = snippets;
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-    },
-    listAllSnippets(state) {
-      return db.snippets.toArray().then((data) => {
-        state.snippets = data;
-        return data;
-      });
-    },
-    clearSnippets(state) {
-      db.snippets.clear();
-      state.snippets = [];
-    }
-  },
-  actions: {
+      let snippets = JSON.parse(localStorage.getItem('snippets'));
+      let index = snippets.findIndex(x => x.name === snippet.name);
+      snippets[index] = snippets;
 
+      localStorage.setItem('snippets', JSON.stringify(snippets));
+    },
+    listAllSnippets() {
+      return JSON.parse(localStorage.getItem('snippets'));
+    },
+    clearSnippets() {
+      localStorage.removeItem('snippets');
+    },
+    setCachedSnippets(state) {
+      state.snippets = JSON.parse(localStorage.getItem('snippets'))
+    }
   }
 })

@@ -7,6 +7,7 @@
             <div class="nav-right">
                 <ul class="nav-right">
                     <li><router-link to="/">Snippets</router-link></li>
+                    <li><router-link to="/export">Export</router-link></li>
                     <li><router-link to="/about">About</router-link></li>
                     <li><a href="https://gitlab.com/NSSure/sure-snippets" title="Source code"><i class="fa fa-gitlab fa-lg"></i></a></li>
                 </ul>

@@ -41,21 +41,26 @@ import ace from 'ace-builds';
 
 export default {
   name: "ManageSnippet",
-  props: {
-    snippet: { Type: Snippet, default: new Snippet() }
-  },
   data: function() {
     return {
       templateJson: "",
       string: "",
       snippetEditor: null,
       jsonEditor: null,
-      mode: "ace/mode/javascript"
+      mode: "ace/mode/javascript",
+      snippet: new Snippet()
     };
+  },
+  watch: {
+    '$store.state.snippet' () {
+      this.snippet = this.$store.state.snippet
+      this.snippetEditor.setValue(this.snippet.content);
+
+    }
   },
   mounted() {
     this.snippetEditor = this.buildEditor("snippet-editor", "ace/mode/javascript", "var hello = 'world'" + "\n");
-    this.jsonEditor = this.buildEditor("json-editor" ,"ace/mode/json");
+    this.jsonEditor = this.buildEditor("json-editor");
   },
   methods: {
     buildEditor (elementId, mode, defaultValue) {
@@ -88,20 +93,11 @@ export default {
         this.$store.dispatch("updateSnippet", this.snippet);
       }
 
-      this.templateJson = this.$snippet.generate(
-        this.snippet.name,
-        this.snippet.prefix,
-        "Snippet description",
-        "JavaScript",
-        this.snippet.content
-      );
+      this.templateJson = this.$snippet.generate(this.snippet);
 
       this.jsonEditor.setValue(this.templateJson, -1);
 
-      this.$popup.show(
-        `${this.snippet.name} snippet added successfully.`,
-        5000
-      );
+      this.$sureToast.show('Snippet added successfully', { theme: 'success' });
     },
     copy() {
       var dummy = document.createElement("input");
@@ -113,9 +109,9 @@ export default {
       document.body.removeChild(dummy);
     },
     clear() {
-      this.snippet = new Snippet();
-      this.snippetEditor.setValue();
-      this.jsonEditor.setValue();
+      this.$store.dispatch('setSnippet', new Snippet());
+      this.snippetEditor.setValue('');
+      this.jsonEditor.setValue('');
     }
   }
 };

@@ -1,28 +1,36 @@
 const SnippetGenerator = {
     install(Vue) {
         Vue.prototype.$snippet = {
-            generate: function(name, prefix, description, language, body) {
+            generate(snippet, tabs) {
                 let bodyComponents = [];
 
-                body.split("\n").forEach(component => {
+                snippet.content.split("\n").forEach(component => {
                     bodyComponents.push(`"${component}"`);
                 });
 
+                let indentations = '';
+
+                if (!tabs) {
+                    tabs = 1
+                }
+                else {
+                    for (let i = 0; i < tabs; i++) {
+                        indentations += '\t';
+                    }
+                }
+
                 let template =
-`{
-    "${name}": {
-        "prefix": "${prefix}",
-        "description": "${description}",
-        "scope": "${language}",
-        "body": [${bodyComponents}]
-    }
-}
-                `;
+
+`${indentations}"${snippet.name}": {
+${indentations}\t"prefix": "${snippet.prefix}",
+${indentations}\t"description": "${snippet.description}",
+${indentations}\t"body": [${bodyComponents}]
+${indentations}\t}`;
 
                 return template;
             },
-            export: function(snippet) {
-                var templateJson = this.generate(snippet.name, snippet.shortcut, 'Snippet description', 'JavaScript', snippet.content);
+            export (snippet) {
+                var templateJson = this.generate(snippet);
 
                 const blob = new Blob([templateJson], {type: 'text/plain'})
                 const e = document.createEvent('MouseEvents'),

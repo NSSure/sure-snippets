@@ -15,7 +15,7 @@
           <td>
             <div class="float-right">
               <button class="btn btn-danger mr-2" v-on:click="$snippet.export(snippet)" title="Download snippet template"><i class="fa fa-download"></i></button>
-              <button class="btn btn-secondary mr-2" v-on:click="$emit('view-snippet', snippet)" title="Edit snippet"><i class="fa fa-pencil-square-o"></i></button>
+              <button class="btn btn-secondary mr-2" v-on:click="$store.dispatch('setSnippet', snippet)" title="Edit snippet"><i class="fa fa-pencil-square-o"></i></button>
               <button class="btn btn-secondary" v-on:click="copy(snippet)" title="Copy to clipboard"><i class="fa fa-copy"></i></button>
             </div>
           </td>
@@ -26,27 +26,21 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-
 export default {
   name: 'Snippets',
-  data: function() {
-    return {
-
-    }
-  },
   computed: {
-    ...mapGetters({
-      snippets: 'getSnippets'
-    })
+    snippets() {
+      return this.$store.state.snippets
+    }
   },
   methods: {
     copy(snippet) {
-      this.snippets[0].name = "TEST";
-      var dummy = document.createElement("input");
+      this.templateJson = this.$snippet.generate(snippet);
+
+      let dummy = document.createElement("input");
       document.body.appendChild(dummy);
       dummy.setAttribute("id", "dummy_id");
-      document.getElementById("dummy_id").value = snippet.content;
+      document.getElementById("dummy_id").value = this.templateJson;
       dummy.select();
       document.execCommand("copy");
       document.body.removeChild(dummy);
