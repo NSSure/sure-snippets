@@ -6,17 +6,32 @@
           <th class="w-30">Name</th>
           <th class="w-25">Language</th>
           <th class="w-20"></th>
+          <th v-if="manualSelectionExport"></th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="snippet of snippets" :key="snippet.id">
+        <tr v-for="(snippet, index) of snippets" :key="snippet.id">
           <td>{{snippet.name}}</td>
           <td>{{snippet.language}}</td>
           <td>
             <div class="float-right">
-              <button class="btn btn-danger mr-2" v-on:click="$snippet.export(snippet)" title="Download snippet template"><i class="fa fa-download"></i></button>
-              <button class="btn btn-secondary mr-2" v-on:click="$store.dispatch('setSnippet', snippet)" title="Edit snippet"><i class="fa fa-pencil-square-o"></i></button>
-              <button class="btn btn-secondary" v-on:click="copy(snippet)" title="Copy to clipboard"><i class="fa fa-copy"></i></button>
+              <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <i class="fa fa-cog fa-lg"></i>
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                  <a class="dropdown-item" href="#" @click="$store.dispatch('setSnippet', snippet)"><i class="fa fa-pencil-square-o"></i> Edit</a>
+                  <a class="dropdown-item" href="#" @click="$snippets.copy([snippet])"><i class="fa fa-copy"></i> Copy</a>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" href="#" @click="$snippets.download([snippet])"><i class="fa fa-download"></i> Download</a>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td v-if="manualSelectionExport">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" :id="'include-in-export-' + index" v-model="snippet.includeInExport" @change="updateSnippetExport(snippet)">
+              <label class="form-check-label" :for="'include-in-export-' + index"></label>
             </div>
           </td>
         </tr>
@@ -31,42 +46,19 @@ export default {
   computed: {
     snippets() {
       return this.$store.state.snippets
+    },
+    manualSelectionExport() {
+      return this.$store.state.manualSelectionExport;
     }
   },
   methods: {
-    copy(snippet) {
-      this.templateJson = this.$snippet.generate(snippet);
-
-      let dummy = document.createElement("input");
-      document.body.appendChild(dummy);
-      dummy.setAttribute("id", "dummy_id");
-      document.getElementById("dummy_id").value = this.templateJson;
-      dummy.select();
-      document.execCommand("copy");
-      document.body.removeChild(dummy);
+    updateSnippetExport(snippet) {
+      console.log(snippet.includeInExport);
     }
   }
 }
 </script>
 
 <style scoped>
-  .snippets-list {
-    background-color: #252526;
-  }
 
-  td {
-    vertical-align: middle;
-  }
-
-  .table td, .table th {
-    border: none;
-  }
-
-  .table td {
-    border-bottom: 1px solid #383838;
-  }
-
-  thead {
-    background-color: #383838;
-  }
 </style>

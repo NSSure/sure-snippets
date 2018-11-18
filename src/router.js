@@ -1,8 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import About from './views/About.vue'
-import Snippets from './views/Snippets.vue'
-import Export from './views/Export.vue'
+import Default from './components/default.vue'
+import About from './components/about.vue'
 
 Vue.use(Router)
 
@@ -11,22 +10,12 @@ export default new Router({
     {
       path: '/',
       name: 'snippets',
-      component: Snippets
-    },
-    {
-      path: '/',
-      name: 'snippet',
-      component: Snippets
+      component: Default
     },
     {
       path: '/about',
       name: 'about',
       component: About
-    },
-    {
-      path: '/export',
-      name: 'export',
-      component: Export
     }
   ]
 })

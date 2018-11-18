@@ -5,8 +5,9 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    snippet: {},
-    snippets: []
+    snippet: null,
+    snippets: [],
+    manualSelectionExport: false
   },
   getters: {
 
@@ -20,6 +21,7 @@ export default new Vuex.Store({
     listAllSnippets: ({commit}) => { commit('listAllSnippets') },
     clearSnippets: ({commit}) => { commit('clearSnippets') },
     setCachedSnippets: ({commit}) => { commit('setCachedSnippets') },
+    toggleManualSelectionExport: ({commit}) => { commit('toggleManualSelectionExport') }
   },
   mutations: {
     setSnippet(state, snippet) {
@@ -70,6 +72,9 @@ export default new Vuex.Store({
     },
     setCachedSnippets(state) {
       state.snippets = JSON.parse(localStorage.getItem('snippets'))
+    },
+    toggleManualSelectionExport(state) {
+      state.manualSelectionExport = !state.manualSelectionExport;
     }
   }
 })

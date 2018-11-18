@@ -10,7 +10,10 @@ Vue.config.productionTip = false;
 
 Vue.use(VueHighlightJS);
 Vue.use(SnippetGenerator);
-Vue.use(SureToast);
+Vue.use(SureToast, {
+  position: 'bottom-left',
+  enableManualDismiss: true
+});
 
 new Vue({
   router,
