@@ -42,7 +42,6 @@ body {
 .snippet-container {
   background-color: #1e1e1e;
   padding: 15px;
-  border: px dashed silver;
 }
 
 .snippet-container input[type="text"] {
