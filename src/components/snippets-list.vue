@@ -23,7 +23,7 @@
                   <a class="dropdown-item" href="#" @click="$store.dispatch('setSnippet', snippet)"><i class="fa fa-pencil-square-o"></i> Edit</a>
                   <a class="dropdown-item" href="#" @click="$snippets.copy([snippet])"><i class="fa fa-copy"></i> Copy</a>
                   <div class="dropdown-divider"></div>
-                  <a class="dropdown-item" href="#" @click="$snippets.download([snippet])"><i class="fa fa-download"></i> Download</a>
+                  <a class="dropdown-item" href="#" @click="$snippets.export([snippet])"><i class="fa fa-download"></i> Download</a>
                 </div>
               </div>
             </div>

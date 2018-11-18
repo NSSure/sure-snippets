@@ -22,6 +22,7 @@ const SnippetGenerator = {
             consolidate(snippets) {
                 let exportObject = {};
                 console.log(snippets);
+                
                 snippets.forEach(snippet => {
                     exportObject[snippet.name] = this.generate(snippet);
                 });
