@@ -31,7 +31,7 @@ export default {
   watch: {
     '$store.state.snippets': {
       handler() {
-        console.log('test');
+        console.log('test')
         this.setEditorValue();        
       },
       deep: true
@@ -48,10 +48,6 @@ export default {
     }
   },
   mounted() {
-    this.$store.state.snippets.forEach((snippet) => {
-      this.$set(snippet, 'includeInExport', true);
-    });
-
     this.exportEditor = this.buildEditor("editor", "ace/mode/json");
     this.setEditorValue();
   },

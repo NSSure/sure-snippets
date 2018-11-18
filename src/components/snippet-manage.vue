@@ -92,6 +92,7 @@ export default {
       return editor
     },
     save () {
+      this.snippet.includeInExport = true;
       this.snippet.content = this.snippetEditor.getValue();
       this.snippet.content = this.snippet.content.replace(/"/g, "'");
       this.snippet.language = this.mode.split('/')[2].toUpperCase();
@@ -110,6 +111,7 @@ export default {
       this.$sureToast.show('Snippet added successfully', { theme: 'success' });
     },
     clear() {
+      this.snippet = new Snippet();
       this.$store.dispatch('setSnippet', null);
       this.snippetEditor.setValue('');
       this.jsonEditor.setValue('');

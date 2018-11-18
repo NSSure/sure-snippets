@@ -67,7 +67,8 @@ export default new Vuex.Store({
     listAllSnippets() {
       return JSON.parse(localStorage.getItem('snippets'));
     },
-    clearSnippets() {
+    clearSnippets(state) {
+      state.snippets = [];
       localStorage.removeItem('snippets');
     },
     setCachedSnippets(state) {

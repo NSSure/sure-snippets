@@ -3,7 +3,7 @@
       <div class="snippets-list-container d-flex h-100">
         <div class="col-5">
           <div class="mr-3">
-            <modal v-if="showModal" @close="showModal = false">
+            <modal v-if="showModal" @close="showModal = false" @confirm="$store.dispatch('clearSnippets'); showModal = false;">
               <h3 slot="header">Clear Snippets?</h3>
               <p slot="body">Are you sure you want to clear your snippets? This action can't be undone. Make sure you export any snipets you want to save.</p>
             </modal>
