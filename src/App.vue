@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    <top-menu></top-menu>
-    <router-view/>
+    <top-menu class="menu"></top-menu>
+    <router-view class="router-view" />
   </div>
 </template>
 
@@ -16,7 +16,7 @@ export default {
   created: function() {
     this.$sureToast.show(
       "Welcome to Sure Snippets. Get started creating efficent snippets!",
-      { theme: "success" }
+      { theme: "info" }
     );
     this.$store.dispatch("setCachedSnippets");
   }
@@ -27,7 +27,16 @@ export default {
 #app {
   display: flex;
   height: 100%;
-  flex-direction: column;
+}
+
+#app > .menu {
+  width: 15%;
+}
+
+#app > .router-view {
+  height: 100%;
+  width: 100%;
+  overflow-y: scroll;
 }
 
 html,

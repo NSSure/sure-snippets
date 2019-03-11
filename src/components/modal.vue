@@ -2,6 +2,7 @@
   <transition name="modal">
     <div class="modal-mask">
       <div class="modal-wrapper">
+        <button type="button" class="btn btn-danger btn-circle dismiss" @click="$emit('close')"><i class="fa fa-close"></i></button>
         <div class="modal-container">
           <div class="modal-header">
             <slot name="header">
@@ -13,12 +14,12 @@
               default body
             </slot>
           </div>
-          <div class="modal-footer">
+          <!-- <div class="modal-footer">
             <slot name="footer">
               <button class="btn btn-danger modal-default-button" @click="$emit('close')">Close</button>
               <button class="btn btn-secondary modal-default-button" @click="$emit('confirm')">Confirm</button>
             </slot>
-          </div>
+          </div> -->
         </div>
       </div>
     </div>
@@ -32,6 +33,16 @@ export default {
 </script>
 
 <style scoped>
+.btn-circle {
+  width: 30px;
+  height: 30px;
+  padding: 6px 0px;
+  border-radius: 15px;
+  text-align: center;
+  font-size: 12px;
+  line-height: 1.42857;
+}
+
 .modal-mask {
   position: fixed;
   z-index: 9998;
@@ -42,34 +53,45 @@ export default {
   background-color: rgba(0, 0, 0, .5);
   display: table;
   transition: opacity .3s ease;
+  display: flex;
+  justify-content: flex-end;
 }
 
 .modal-wrapper {
-  display: table-cell;
-  vertical-align: middle;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+}
+
+.modal-wrapper > .dismiss {
+  margin: 15px;
 }
 
 .modal-container {
-  width: 300px;
-  margin: 0px auto;
-  padding: 20px 30px;
+  width: 800px;
   background-color: #333;
   border-radius: 2px;
   transition: all .3s ease;
   font-family: Helvetica, Arial, sans-serif;
+  height: 100%;
+  overflow-y: scroll;
 }
 
 .modal-header {
-    border: none;
+  border: none;
+  display: flex;
+  flex-direction: row;
+  font-size: 24px;
+  box-shadow: 0px 3px 15px rgba(0,0,0,0.2);
 }
 
-.modal-header h3 {
-  margin-top: 0;
-  color: #42b983;
+h3 {
+  margin: 0 !important;
+  padding: 0 !important;
 }
 
 .modal-body {
-  margin: 20px 0;
+  padding: 20px;
 }
 
 .modal-footer {

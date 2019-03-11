@@ -31,6 +31,7 @@ const SnippetGenerator = {
             },
 
             copy(snippets) {
+                console.log(snippets);
                 let exportObject = this.consolidate(snippets);
                 let text = this.toStringify(exportObject);
                 let dummy = document.createElement("input");

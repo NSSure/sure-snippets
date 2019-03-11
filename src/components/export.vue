@@ -1,18 +1,46 @@
 <template>
   <div class="export">
-    <div class="panel-card">
-      <div class="header form-inline">
-        <button type="button" class="btn btn-danger mr-2" @click="$snippets.export($store.state.snippets)"><i class="fa fa-download"></i> Download</button>
-        <button type="button" class="btn btn-secondary mr-3" @click="$snippets.copy($store.state.snippets)"><i class="fa fa-copy"></i> Copy</button>
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="" id="defaultCheck1" v-model="enableManualSelection">
-          <label class="form-check-label" for="defaultCheck1">
-            Manual selection export
-          </label>
+    <ul class="nav nav-tabs nav-fill">
+      <li class="nav-item">
+        <a class="nav-link active" id="snippet-tab" data-toggle="tab" href="#export" role="tab">Export JSON</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" id="snippet-tab" data-toggle="tab" href="#snippet" role="tab">Export Payload</a>
+      </li>
+    </ul>
+    <!-- Tab panes -->
+    <div class="tab-content">
+      <div class="tab-pane active" id="export" role="tabpanel">
+        <div class="panel-card">
+          <div class="header form-inline">
+            <button type="button" class="btn btn-danger mr-2" @click="$snippets.export($store.state.snippets)"><i class="fa fa-download"></i> Download</button>
+            <button type="button" class="btn btn-secondary mr-3" @click="$snippets.copy($store.state.snippets)"><i class="fa fa-copy"></i> Copy</button>
+          </div>
+          <div class="content">
+            <div id="editor"></div> 
+          </div>
         </div>
       </div>
-      <div class="content">
-        <div id="editor"></div> 
+      <div class="tab-pane" id="snippet" role="tabpanel">
+        <table class="table table-dark">
+          <thead class="thead-dark">
+            <tr>
+              <th width="5%"></th>
+              <th>Snippet</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(snippet, index) of $store.state.snippets" :key="snippet.id">
+              <td>
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" :id="'include-in-export-' + index" v-model="snippet.includeInExport" @change="updateSnippetExport(snippet)">
+                  <label class="form-check-label" :for="'include-in-export-' + index"></label>
+                </div>
+              </td>
+              <td>{{snippet.language}} - {{snippet.name}}</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>
@@ -35,16 +63,6 @@ export default {
         this.setEditorValue();        
       },
       deep: true
-    }
-  },
-  computed: {
-    enableManualSelection: {
-      get() {
-        return this.$store.state.enableManualSelection;
-      },
-      set() {
-        this.$store.commit('toggleManualSelectionExport');
-      }
     }
   },
   mounted() {
@@ -86,5 +104,29 @@ export default {
   padding: 15px;
   background-color: #252526;
 }
+
+  .tab-pane {
+    padding-top: 15px;
+  }
+  .nav-tabs {
+    border: none;
+    background-color: #282828;
+    padding: 15px;
+  }
+  .nav-link {
+    color: #f7f7f7;
+  }
+  .nav-link:hover {
+    color: #f7f7f7;
+    background-color: #111;
+    border: 1px solid transparent;
+    border-radius: 25px;
+  }
+  .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
+    background-color: #333;
+    color: #FDB81F;
+    border: none;
+    border-radius: 25px;
+  }
 </style>
 

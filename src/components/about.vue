@@ -1,5 +1,5 @@
 <template>
-  <div class="container about">
+  <div class="about">
     <div class="panel-card">
       <div class="header">
         <h5 style="margin-bottom: 0;">What is Sure Snippets?</h5>
@@ -122,7 +122,7 @@
 
 <style scoped>
   a {
-    color: #FDB81F;
+    color: #41B883;
   }
 
   .about {

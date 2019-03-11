@@ -1,17 +1,34 @@
 <template>
   <div>
-        <ul class="nav">
-            <div class="nav-left">
-                <span class="nav-title"><router-link to="/">SURE SNIPPETS</router-link></span>
-            </div>
-            <div class="nav-right">
-                <ul class="nav-right">
-                    <li><router-link to="/">Snippets</router-link></li>
-                    <li><router-link to="/about">About</router-link></li>
-                    <li><a href="https://github.com/NSSure/sure-snippets" title="Source code"><i class="fa fa-github fa-lg"></i></a></li>
-                </ul>
-            </div>
-        </ul>
+    <ul class="nav">
+      <li>
+        <router-link to="/">
+          <span class="fa-stack fa-lg">
+            <i class="fa fa-square-o fa-stack-2x"></i>
+            <i class="fa fa-list fa-stack-1x"></i>
+          </span>
+          Snippets
+        </router-link>
+      </li>
+      <li>
+        <router-link to="/about">
+          <span class="fa-stack fa-lg">
+            <i class="fa fa-square-o fa-stack-2x"></i>
+            <i class="fa fa-info fa-stack-1x"></i>
+          </span>
+          About
+        </router-link>
+      </li>
+      <li>
+        <a href="https://github.com/NSSure/sure-snippets" title="Source code">
+          <span class="fa-stack fa-lg">
+            <i class="fa fa-square-o fa-stack-2x"></i>
+            <i class="fa fa-github fa-stack-1x"></i>
+          </span>
+          Source
+        </a>
+        </li>
+    </ul>
   </div>
 </template>
 
@@ -23,44 +40,10 @@ export default {
 
 <style scoped>
 .nav {
+  background-color: #007ACC;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background-color: #d2293e;
-}
-
-.nav {
-  display: flex;
-  width: auto;
-}
-
-.nav-left {
-  display: flex;
-  width: auto;
-  justify-content: flex-start;
-}
-
-.nav-right {
-  display: flex;
-  width: auto;
-  justify-content: flex-end;
-}
-
-.nav-title {
-  color: #f7f7f7;
-  font-weight: bold;
-  font-size: 1.25rem;
-  padding: 15px;
-}
-
-.nav-title a {
-  color: #f7f7f7;
-  text-decoration: none;
-  cursor: pointer;
-}
-
-.nav-title a:hover {
-  color: #ffe0f5;
+  flex-direction: column;
+  height: 100%;
 }
 
 ul {
@@ -71,6 +54,11 @@ li {
   color: #f7f7f7;
   cursor: pointer;
   font-weight: bold;
+  display: flex;
+}
+
+li:hover {
+  background-color: #41B883;
 }
 
 li a {
