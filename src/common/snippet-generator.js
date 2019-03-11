@@ -8,11 +8,17 @@ const SnippetGenerator = {
                     bodyComponents.push(`${component}`);
                 });
 
-                return {
+                let snippetTemplateDefinition = {
                     prefix: snippet.prefix,
                     body: bodyComponents,
                     description: snippet.description
                 };
+
+                if (snippet.scope) {
+                    snippetTemplateDefinition.scope = [snippet.scope]
+                }
+
+                return snippetTemplateDefinition;
             },
 
             toStringify(jsonObject) {
@@ -21,9 +27,9 @@ const SnippetGenerator = {
 
             consolidate(snippets) {
                 let exportObject = {};
-                console.log(snippets);
                 
                 snippets.forEach(snippet => {
+                    console.log(snippet);
                     exportObject[snippet.name] = this.generate(snippet);
                 });
 
@@ -31,7 +37,6 @@ const SnippetGenerator = {
             },
 
             copy(snippets) {
-                console.log(snippets);
                 let exportObject = this.consolidate(snippets);
                 let text = this.toStringify(exportObject);
                 let dummy = document.createElement("input");

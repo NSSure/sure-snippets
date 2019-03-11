@@ -56,15 +56,6 @@ export default {
       exportEditor: null
     };
   },
-  watch: {
-    '$store.state.snippets': {
-      handler() {
-        console.log('test')
-        this.setEditorValue();        
-      },
-      deep: true
-    }
-  },
   mounted() {
     this.exportEditor = this.buildEditor("editor", "ace/mode/json");
     this.setEditorValue();
