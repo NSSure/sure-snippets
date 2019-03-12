@@ -32,6 +32,8 @@ export default new Vuex.Store({
         state.snippets = [];
       }
 
+      snippet.id = `sure-snippet-${state.snippets.length}`;
+
       state.snippets.push(snippet);
 
       localStorage.setItem('snippets', JSON.stringify(state.snippets));
@@ -59,8 +61,8 @@ export default new Vuex.Store({
       }
 
       let snippets = JSON.parse(localStorage.getItem('snippets'));
-      let index = snippets.findIndex(x => x.name === snippet.name);
-      snippets[index] = snippets;
+      let index = snippets.find(x => x.id === snippet.id);
+      snippets[index] = snippet;
 
       localStorage.setItem('snippets', JSON.stringify(snippets));
     },

@@ -3,5 +3,6 @@ export default class Snippet {
         this.name = name;
         this.prefix = prefix;
         this.content = content;
+        this.scope = 'javascript';
     }
 }

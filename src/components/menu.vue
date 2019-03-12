@@ -20,7 +20,7 @@
         </router-link>
       </li>
       <li>
-        <a href="https://github.com/NSSure/sure-snippets" title="Source code">
+        <a href="https://github.com/NSSure/sure-snippets" target="_blank" title="Source code">
           <span class="fa-stack fa-lg">
             <i class="fa fa-square-o fa-stack-2x"></i>
             <i class="fa fa-github fa-stack-1x"></i>

@@ -1,9 +1,9 @@
 <template>
-  <div class="snippet-manage">
+  <div class="snippet-manage" v-if="snippet">
     <div class="form-group">
         <button type="button" class="btn btn-secondary mr-2" v-on:click="clear()"><i class="fa fa-plus"></i> New</button>
         <button type="button" class="btn btn-secondary mr-2" v-on:click="save()">Save</button>
-        <button type="button" class="btn btn-secondary mr-2" v-on:click="$snippets.copy([snippet])" v-bind:disabled="!isEditMode" title="Copy the json output generate for this specific snippet">Copy JSON</button>
+        <button type="button" class="btn btn-secondary mr-2" v-on:click="$snippets.copy([snippet])" v-bind:disabled="!snippet.id" title="Copy the json output generate for this specific snippet">Copy JSON</button>
     </div>
     <form>
         <div class="panel-card">
@@ -88,6 +88,7 @@
         <div class="panel-card">
           <div class="header">
             <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+              <button type="button" class="btn btn-secondary" @click="snippetEditor.container.webkitRequestFullscreen()">Fullscreen</button>
               <tabstops-dropdown @tabstop-selected="snippetEditor.session.insert(snippetEditor.getCursorPosition(),`${ $event}`)"></tabstops-dropdown>
               <button type="button" class="btn btn-secondary">Placeholders</button>
               <button type="button" class="btn btn-secondary">Choice</button>
@@ -101,7 +102,9 @@
         <br>
         <div class="panel-card">
           <div class="header">
-            <label>Formatted JSON Ouput</label>
+            <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
+              <button type="button" class="btn btn-secondary" @click="jsonEditor.container.webkitRequestFullscreen()">Fullscreen</button>
+            </div>
           </div>
           <div class="content">
             <div id="json-editor"></div> 
@@ -136,9 +139,6 @@ export default {
     TabstopsDropdown,
     VariablesDropdown
   },
-  props: {
-    isEditMode: false
-  },
   data: function() {
     return {
       string: "",
@@ -149,18 +149,18 @@ export default {
     };
   },
   mounted() {
-    this.snippetEditor = this.buildEditor("snippet-editor", "ace/mode/javascript");
     this.jsonEditor = this.buildEditor("json-editor", "ace/mode/json");
+
+    console.log(this.$store.state.snippet);
 
     if (this.$store.state.snippet) {
       this.snippet = this.$store.state.snippet;
-      this.snippetEditor.setValue(
-        // this.$snippets.toStringify(this.snippet.content)
-        this.snippet.content
-      );
+      this.snippetEditor = this.buildEditor("snippet-editor", `ace/mode/${this.snippet.scope}`);
+      this.snippetEditor.setValue(this.snippet.content);
     }
-
-    // this.snippetEditor.container.webkitRequestFullscreen()
+    else {
+      this.snippetEditor = this.buildEditor("snippet-editor", "ace/mode/javascript");
+    }
   },
   methods: {
     buildEditor(elementId, mode, defaultValue) {
@@ -184,7 +184,8 @@ export default {
       this.snippet.includeInExport = true;
       this.snippet.content = this.snippetEditor.getValue();
       this.snippet.content = this.snippet.content.replace(/"/g, "'");
-      this.snippet.language = this.mode.split("/")[2].toUpperCase();
+      this.snippet.language = this.mode.split("/")[2].toLowerCase();
+      console.log(this.snippet);
 
       if (!this.snippet.id) {
         this.$store.dispatch("addSnippet", this.snippet);
@@ -195,13 +196,7 @@ export default {
 
       let snippetDefinition = this.$snippets.generate(this.snippet);
       this.snippet.body = snippetDefinition.body;
-
-      this.jsonEditor.setValue(
-        this.$snippets.toStringify(snippetDefinition),
-        -1
-      );
-      
-      this.isEditMode = true;
+      this.jsonEditor.setValue(this.$snippets.toStringify(snippetDefinition), -1);
       this.$sureToast.show("Snippet added successfully", { theme: "success" });
     },
     clear() {

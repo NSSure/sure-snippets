@@ -92,6 +92,7 @@ h3 {
 
 .modal-body {
   padding: 20px;
+  height: 100%;
 }
 
 .modal-footer {

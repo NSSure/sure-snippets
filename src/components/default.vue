@@ -5,17 +5,13 @@
         <span slot="header">Clear Snippets?</span>
         <p slot="body">Are you sure you want to clear your snippets? This action can't be undone. Make sure you export any snipets you want to save.</p>
       </modal>
-      <modal v-if="showManageModal" @close="showManageModal = false; isSnippetEditMode = false; $store.dispatch('setSnippet', null)" @confirm="showManageModal = false;">
+      <modal v-if="showManageModal" @close="showManageModal = false; $store.dispatch('setSnippet', null)" @confirm="showManageModal = false;">
         <span slot="header">Manage Snippet</span>
-        <p slot="body">
-          <snippet-manage :is-edit-mode="isSnippetEditMode"></snippet-manage>
-        </p>
+        <snippet-manage slot="body"></snippet-manage>
       </modal>
       <modal v-if="showExportModal" @close="showExportModal = false" @confirm="showExportModal = false;">
         <span slot="header">Export Snippets</span>
-        <p slot="body">
-          <export></export>
-        </p>
+        <export slot="body"></export>
       </modal>
       <div class="action-ribbon">
         <button class="btn btn-info" @click="showManageModal = true"><i class="fa fa-plus"></i> New Snippet</button>
@@ -44,7 +40,6 @@ export default {
   data: function() {
     return {
       isAddMode: false,
-      isSnippetEditMode: false,
       showModal: false,
       showManageModal: false,
       showExportModal: false
@@ -53,10 +48,7 @@ export default {
   watch: {
     "$store.state.snippet"() {
       if (this.$store.state.snippet) {
-        this.isSnippetEditMode = true;
         this.showManageModal = true;
-      } else {
-        this.isSnippetEditMode = false;
       }
     }
   },
