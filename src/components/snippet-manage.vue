@@ -3,7 +3,6 @@
     <div class="form-ribbon form-row">
       <button type="button" class="btn btn-info mr-2" v-on:click="clear()"><i class="fa fa-plus"></i> New</button>
       <button type="button" class="btn btn-info mr-2" v-on:click="save()">Save</button>
-      <button type="button" class="btn btn-info mr-2" v-on:click="$snippets.copy([snippet])" v-bind:disabled="!snippet.id" title="Copy the json output generate for this specific snippet">Copy JSON</button>
       <div class="form-group" style="margin-bottom: 0; align-self: center;">
         <div class="form-check">
           <input class="form-check-input" type="checkbox" v-model="snippet.isGlobal">
@@ -90,7 +89,7 @@
             <div class="panel-card">
               <div class="header">
                 <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
-                  <button type="button" class="btn btn-secondary" @click="snippetEditor.container.webkitRequestFullscreen()">Fullscreen</button>
+                  <button type="button" class="btn btn-secondary" @click="snippetEditor.container.webkitRequestFullscreen()"><i class="fa fa-expand"></i> Fullscreen</button>
                   <tabstop-dropdown @token-selected="snippetEditor.session.insert(snippetEditor.getCursorPosition(), $event)"></tabstop-dropdown>
                   <variables-dropdown @token-selected="snippetEditor.session.insert(snippetEditor.getCursorPosition(), $event)"></variables-dropdown>
                 </div>
@@ -104,7 +103,8 @@
             <div class="panel-card">
               <div class="header">
                 <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
-                  <button type="button" class="btn btn-secondary" @click="jsonEditor.container.webkitRequestFullscreen()">Fullscreen</button>
+                  <button type="button" class="btn btn-secondary" @click="jsonEditor.container.webkitRequestFullscreen()"><i class="fa fa-expand"></i> Fullscreen</button>
+                  <button type="button" class="btn btn-secondary mr-3" @click="copy()" :disabled="!isEditMode"><i class="fa fa-copy"></i> Copy</button>
                 </div>
               </div>
               <div id="json-editor-container" class="content">
@@ -121,7 +121,6 @@
 import TabstopDropdown from './tabstop-dropdown';
 import VariablesDropdown from './variables-dropdown';
 import Snippet from "@/models/snippet.js";
-import ace from "ace-builds";
 
 export default {
   name: "snippet-manage",
@@ -138,41 +137,24 @@ export default {
       snippet: new Snippet()
     };
   },
+  computed: {
+    isEditMode() {
+      return this.snippet.id !== ''
+    }
+  },
   mounted() {
-    this.jsonEditor = this.buildEditor('json-editor', 'json-editor-container', 'ace/mode/json');
+    this.jsonEditor = this.$snippets.buildEditor('json-editor', 'json-editor-container', 'ace/mode/json');
 
     if (this.$store.state.snippet) {
       this.snippet = this.$store.state.snippet;
-      this.snippetEditor = this.buildEditor('snippet-editor', 'snippet-editor-container', `ace/mode/${this.snippet.scope}`);
-      this.snippetEditor.setValue(this.snippet.content);
+      this.snippetEditor = this.$snippets.buildEditor('snippet-editor', 'snippet-editor-container', `ace/mode/${this.snippet.scope}`);
+      this.snippetEditor.setValue(this.snippets.content);
     }
     else {
-      this.snippetEditor = this.buildEditor('snippet-editor', 'snippet-editor-container', 'ace/mode/javascript');
+      this.snippetEditor = this.$snippets.buildEditor('snippet-editor', 'snippet-editor-container', 'ace/mode/javascript');
     }
   },
   methods: {
-    buildEditor(elementId, containerElementId, mode) {
-      let containingElement = document.getElementById(containerElementId);
-      let lines = (containingElement.clientHeight) / 15;
-
-      console.log(`Container Element Height: ${containingElement.clientHeight}`);
-      console.log(`Lines: ${lines}`);
-
-      let editor = ace.edit(null, {
-        maxLines: lines,
-        minLines: lines,
-        mode: mode,
-        bug: 1,
-        theme: "ace/theme/chaos",
-        showPrintMargin: false,
-        highlightActiveLine: false
-      });
-
-      let element = document.getElementById(elementId);
-      element.appendChild(editor.container);
-
-      return editor;
-    },
     save() {
       this.snippet.includeInExport = true;
       this.snippet.content = this.snippetEditor.getValue();
@@ -196,6 +178,10 @@ export default {
       this.$store.dispatch("setSnippet", null);
       this.snippetEditor.setValue("");
       this.jsonEditor.setValue("");
+    },
+    copy() {
+      this.$snippets.copy([this.snippet]);
+      this.$sureToast.show("Snippet JSON copy successfully", { theme: "success" })
     }
   }
 };

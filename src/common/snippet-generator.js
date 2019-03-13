@@ -1,6 +1,32 @@
+import ace from "ace-builds";
+
 const SnippetGenerator = {
     install(Vue) {
         Vue.prototype.$snippets = {
+            buildEditor(elementId, containerElementId, mode) {
+                let containingElement = document.getElementById(containerElementId);
+                let lines = (containingElement.clientHeight) / 15;
+
+                console.log(`Container Element Height: ${containingElement.clientHeight}`);
+                console.log(`Lines: ${lines}`);
+                console.log(containingElement);
+
+                let editor = ace.edit(null, {
+                    maxLines: lines,
+                    minLines: lines,
+                    mode: mode,
+                    bug: 1,
+                    theme: "ace/theme/chaos",
+                    showPrintMargin: false,
+                    highlightActiveLine: false
+                });
+
+                let element = document.getElementById(elementId);
+                element.appendChild(editor.container);
+
+                return editor;
+            },
+
             generate(snippet) {
                 let bodyComponents = [];
 
@@ -15,7 +41,7 @@ const SnippetGenerator = {
                 };
 
                 if (snippet.scope) {
-                    snippetTemplateDefinition.scope = [snippet.scope]
+                    snippetTemplateDefinition.scope = snippet.scope; // [snippet.scope]
                 }
 
                 return snippetTemplateDefinition;

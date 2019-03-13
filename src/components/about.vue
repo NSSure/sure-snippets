@@ -1,5 +1,5 @@
 <template>
-  <div class="about">
+  <div class="about component">
     <div class="panel-card">
       <div class="header">
         <h5 style="margin-bottom: 0;">What is Sure Snippets?</h5>

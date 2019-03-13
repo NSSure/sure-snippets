@@ -11,7 +11,7 @@
       <div class="dropdown-divider"></div>
       <a class="dropdown-item cursor-pointer" @click="$emit(tokenSelected, `$${tabstop}`)" v-for="(tabstop, index) of tabstops" :key="index">{{tabstop}}</a>
     </div>
-    <modal v-if="showPlaceholderModal" @close="showPlaceholderModal = false" @confirm="$emit(tokenSelected, '${' + placeholderTabstop + ':' + placeholderValue + '}')">
+    <modal v-if="showPlaceholderModal" @close="showPlaceholderModal = false" @confirm="showPlaceholderModal = false; $emit(tokenSelected, '${' + placeholderTabstop + ':' + placeholderValue + '}')">
       <span slot="header">Insert Placeholder</span>
       <div slot="body">
         <div class="form-group">
@@ -28,7 +28,20 @@
     </modal>
     <modal v-if="showChoiceModal" @close="showChoiceModal = false" @confirm="showChoiceModal = false;">
       <span slot="header">Insert Choice</span>
-      <choice slot="body" :tabstops="tabstops"></choice>
+      <div slot="body">
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label for="inputEmail4">Tabstop</label>
+            <select class="form-control" v-model="placeholderTabstop">
+              <option v-for="tabstop of tabstops" :key="tabstop">{{tabstop}}</option>
+            </select>
+          </div>
+          <div class="form-group col-md-6">
+            <label for="inputEmail4">Choice Values</label>
+            <input type="email" class="form-control" id="inputEmail4" placeholder="Comma seperated list">
+          </div>
+        </div>
+      </div>
     </modal>
   </div>
 </template>
@@ -62,6 +75,10 @@ export default {
 </script>
 
 <style scoped>
+.modal-container {
+  width: 500px;
+}
+
 .dropdown-menu.show {
   height: 300px;
   overflow-y: scroll;

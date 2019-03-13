@@ -1,54 +1,18 @@
 <template>
-  <div class="export">
-    <ul class="nav nav-tabs nav-fill">
-      <li class="nav-item">
-        <a class="nav-link active" id="snippet-tab" data-toggle="tab" href="#export" role="tab">Export JSON</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" id="snippet-tab" data-toggle="tab" href="#snippet" role="tab">Export Payload</a>
-      </li>
-    </ul>
-    <!-- Tab panes -->
-    <div class="tab-content">
-      <div class="tab-pane active" id="export" role="tabpanel">
-        <div class="panel-card">
-          <div class="header form-inline">
-            <button type="button" class="btn btn-danger mr-2" @click="$snippets.export($store.state.snippets)"><i class="fa fa-download"></i> Download</button>
-            <button type="button" class="btn btn-secondary mr-3" @click="$snippets.copy($store.state.snippets)"><i class="fa fa-copy"></i> Copy</button>
-          </div>
-          <div class="content">
-            <div id="editor"></div> 
-          </div>
-        </div>
+  <div class="export component">
+    <div class="panel-card">
+      <div class="header form-inline">
+        <button type="button" class="btn btn-danger mr-2" @click="$snippets.export($store.state.snippets)"><i class="fa fa-download"></i> Download</button>
+        <button type="button" class="btn btn-secondary mr-3" @click="copy()"><i class="fa fa-copy"></i> Copy</button>
       </div>
-      <div class="tab-pane" id="snippet" role="tabpanel">
-        <table class="table table-dark">
-          <thead class="thead-dark">
-            <tr>
-              <th width="5%"></th>
-              <th>Snippet</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="(snippet, index) of $store.state.snippets" :key="snippet.id">
-              <td>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" :id="'include-in-export-' + index" v-model="snippet.includeInExport" @change="updateSnippetExport(snippet)">
-                  <label class="form-check-label" :for="'include-in-export-' + index"></label>
-                </div>
-              </td>
-              <td>{{snippet.language}} - {{snippet.name}}</td>
-            </tr>
-          </tbody>
-        </table>
+      <div id="json-export-container" class="content">
+        <div id="json-editor"></div> 
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import ace from "ace-builds";
-
 export default {
   name: "export",
   data: function() {
@@ -57,7 +21,7 @@ export default {
     };
   },
   mounted() {
-    this.exportEditor = this.buildEditor("editor", "ace/mode/json");
+    this.exportEditor = this.$snippets.buildEditor('json-editor', 'json-export-container', 'ace/mode/json');
     this.setEditorValue();
   },
   methods: {
@@ -68,29 +32,26 @@ export default {
         this.exportEditor.setValue(this.$snippets.toStringify(exportObject));
       }
     },
-    buildEditor(elementId, mode) {
-      // 215 is the height of the height, padding, and margin of the elements around the editor so we can calc the full screen height.
-      let lines = (window.innerHeight - 215) / 15;
-
-      let editor = ace.edit(null, {
-        maxLines: lines,
-        minLines: lines,
-        mode: mode,
-        theme: "ace/theme/chaos",
-        showPrintMargin: false,
-        highlightActiveLine: false
-      });
-
-      let element = document.getElementById(elementId);
-      element.appendChild(editor.container);
-
-      return editor;
+    copy() {
+      this.$snippets.copy(this.$store.state.snippets);
+      this.$sureToast.show("Snippet JSON copy successfully", { theme: "success" })
     }
   }
 };
 </script>
 
 <style scoped>
+.panel-card {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.panel-card > .content {
+  flex: 1;
+  padding: 0;
+}
+
 .editor-ribbon {
   padding: 15px;
   background-color: #252526;

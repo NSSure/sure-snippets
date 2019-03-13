@@ -1,5 +1,5 @@
 <template>
-  <div class="snippets-list">
+  <div class="snippets-list component">
     <h3>My Snippets</h3>
     <br>
     <table class="table table-dark">
@@ -38,8 +38,10 @@
               <i class="fa fa-circle-o fa-stack-2x"></i>
               <i class="fa fa-info fa-stack-1x"></i>
             </span>
-            <h3>Hi there!</h3>
-            <p>It looks like you have not added any snippets yet. Click the add snippet button to get started.</p>
+            <div style="margin-top: 25px;">
+              <h3>Hi there!</h3>
+              <p>It looks like you have not added any snippets yet. Click the add snippet button to get started.</p>
+            </div>
           </td>
         </tr>
       </tbody>
@@ -54,19 +56,10 @@ export default {
     snippets() {
       return this.$store.state.snippets || []
     }
-  },
-  methods: {
-    updateSnippetExport(snippet) {
-      console.log(snippet.includeInExport);
-    }
   }
 }
 </script>
 
 <style scoped>
-.snippets-list {
-  padding: 25px;
-}
-
 .dropdown-toggle:after { content: none }
 </style>

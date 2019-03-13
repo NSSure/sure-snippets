@@ -2,25 +2,37 @@
   <div class="app">
     <top-menu class="menu"></top-menu>
     <div class="app-content">
-      <nav class="navbar navbar-dark bg-dark" style="box-shadow: 0px 3px 15px rgba(0,0,0,0.2); border-bottom: 1px solid #282828; background-color: #3A4149 !important; padding: 15px;">
-        <form class="form-inline">
-          <router-link tag="button" :to="{ name: 'snippetManage' }" class="btn mr-sm-2"><i class="fa fa-plus"></i> New Snippet</router-link>
-          <button class="btn mr-sm-2" @click="showExportModal = true"><i class="fa fa-cogs"></i> Bulk Export</button>
-          <button class="btn mr-sm-2" @click="showModal = true"><i class="fa fa-ban"></i> Clear Snippets</button>
-        </form>
-      </nav>
+      <div style="box-shadow: 0px 3px 15px rgba(0,0,0,0.2); border-bottom: 1px solid #282828; background-color: #3A4149 !important; padding: 15px;">
+        <router-link tag="button" :to="{ name: 'snippetManage' }" class="btn mr-sm-2"><i class="fa fa-plus"></i> New Snippet</router-link>
+        <router-link tag="button" :to="{ name: 'export' }" class="btn mr-sm-2"><i class="fa fa-cogs"></i> Bulk Export</router-link>
+        <button type="button" class="btn mr-sm-2" @click="showClearModal = true"><i class="fa fa-ban"></i> Clear Snippets</button>
+      </div>
       <router-view class="router-view" />
     </div>
+    <modal v-if="showClearModal" @close="showClearModal = false" @confirm="$store.dispatch('clearSnippets'); showClearModal = false; $router.push({ name: 'snippets' })">
+        <span slot="header">Clear Snippets?</span>
+        <p slot="body">Are you sure you want to clear your snippets? This action can't be undone. Make sure you export any snipets you want to save.</p>
+    </modal>
   </div>
 </template>
 
 <script>
 import TopMenu from "@/components/menu.vue";
+import Modal from '@/components/modal.vue';
+import Export from '@/components/export.vue';
 
 export default {
   name: "app",
   components: {
-    TopMenu
+    TopMenu,
+    Modal,
+    Export
+  },
+  data () {
+    return {
+      showExportModal: false,
+      showClearModal: false
+    }
   },
   created: function() {
     this.$sureToast.show(
@@ -51,7 +63,6 @@ export default {
 .app > .router-view {
   height: 100%;
   width: 100%;
-  overflow-y: scroll;
 }
 
 html,
@@ -71,6 +82,8 @@ body {
   display: flex;
   flex-direction: column;
   flex-grow: 1;
+  overflow-y: auto;
+  padding: 50px;
 }
 
 .snippet-container input[type="text"] {
