@@ -40,10 +40,12 @@ export default {
 
 <style scoped>
 .nav {
-  background-color: #007ACC;
+  background-color: #3A4149;
   display: flex;
   flex-direction: column;
   height: 100%;
+  box-shadow: 0px 3px 15px rgba(0,0,0,0.2);
+  border-right: 1px solid #282828;
 }
 
 ul {
@@ -58,17 +60,13 @@ li {
 }
 
 li:hover {
-  background-color: #41B883;
+  background-color: #181818;
 }
 
 li a {
   color: #f7f7f7;
   text-decoration: none;
   padding: 15px;
-}
-
-li a:hover {
-  color: #ffe0f5;
 }
 
 .title {

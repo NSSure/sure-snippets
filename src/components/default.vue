@@ -1,25 +1,14 @@
 <template>
   <div class="snippets h-100 w-100">
-    <div class="snippets-list-container">
-      <modal v-if="showModal" @close="showModal = false" @confirm="$store.dispatch('clearSnippets'); showModal = false;">
+    <modal v-if="showModal" @close="showModal = false" @confirm="$store.dispatch('clearSnippets'); showModal = false;">
         <span slot="header">Clear Snippets?</span>
         <p slot="body">Are you sure you want to clear your snippets? This action can't be undone. Make sure you export any snipets you want to save.</p>
-      </modal>
-      <modal v-if="showManageModal" @close="showManageModal = false; $store.dispatch('setSnippet', null)" @confirm="showManageModal = false;">
-        <span slot="header">Manage Snippet</span>
-        <snippet-manage slot="body"></snippet-manage>
-      </modal>
-      <modal v-if="showExportModal" @close="showExportModal = false" @confirm="showExportModal = false;">
-        <span slot="header">Export Snippets</span>
-        <export slot="body"></export>
-      </modal>
-      <div class="action-ribbon">
-        <button class="btn btn-info" @click="showManageModal = true"><i class="fa fa-plus"></i> New Snippet</button>
-        <button class="btn btn-info" @click="showExportModal = true"><i class="fa fa-cogs"></i> Bulk Export</button>
-        <button class="btn btn-danger" @click="showModal = true"><i class="fa fa-ban"></i> Clear Snippets</button>
-      </div>
-      <snippets-list></snippets-list>
-    </div>
+    </modal>
+    <modal v-if="showExportModal" @close="showExportModal = false" @confirm="showExportModal = false;">
+      <span slot="header">Export Snippets</span>
+      <export slot="body"></export>
+    </modal>
+    <snippets-list></snippets-list>
   </div>
 </template>
 
@@ -65,13 +54,7 @@ export default {
     margin-right: 5px;
   }
 
-  .snippets-list-container {
-    background-color: #252526;
-    height: 100%;
-  }
-
   .snippet-container {
-    background-color: #1E1E1E;
     overflow-y: scroll;
   }
 

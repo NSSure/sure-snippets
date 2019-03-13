@@ -1,5 +1,5 @@
 <template>
-  <transition name="modal">
+  <!-- <transition name="modal">
     <div class="modal-mask">
       <div class="modal-wrapper">
         <button type="button" class="btn btn-danger btn-circle dismiss" @click="$emit('close')"><i class="fa fa-close"></i></button>
@@ -14,12 +14,26 @@
               default body
             </slot>
           </div>
-          <!-- <div class="modal-footer">
+        </div>
+      </div>
+    </div>
+  </transition> -->
+  <transition name="modal">
+    <div class="modal-mask">
+      <div class="modal-wrapper">
+        <div class="modal-container">
+          <div class="modal-header">
+            <slot name="header"></slot>
+          </div>
+          <div class="modal-body">
+            <slot name="body"></slot>
+          </div>
+          <div class="modal-footer">
             <slot name="footer">
-              <button class="btn btn-danger modal-default-button" @click="$emit('close')">Close</button>
-              <button class="btn btn-secondary modal-default-button" @click="$emit('confirm')">Confirm</button>
+              <button type="button" class="modal-default-button btn btn-danger" @click="$emit('close')">Cancel</button>
+              <button type="button" class="modal-default-button btn" @click="$emit('confirm')">OK</button>
             </slot>
-          </div> -->
+          </div>
         </div>
       </div>
     </div>
@@ -33,7 +47,8 @@ export default {
 </script>
 
 <style scoped>
-.btn-circle {
+/* THESE ARE THE STYLES FOR RIGHT ALIGNED MODALS */
+/* .btn-circle {
   width: 30px;
   height: 30px;
   padding: 6px 0px;
@@ -97,6 +112,69 @@ h3 {
 
 .modal-footer {
     border: none;
+}
+
+.modal-default-button {
+  float: right;
+}
+
+.modal-enter {
+  opacity: 0;
+}
+
+.modal-leave-active {
+  opacity: 0;
+}
+
+.modal-enter .modal-container,
+.modal-leave-active .modal-container {
+  -webkit-transform: scale(1.1);
+  transform: scale(1.1);
+} */
+
+.modal-mask {
+  position: fixed;
+  z-index: 9998;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, .5);
+  display: table;
+  transition: opacity .3s ease;
+}
+
+.modal-wrapper {
+  display: table-cell;
+  vertical-align: middle;
+}
+
+.modal-container {
+  width: 300px;
+  margin: 0px auto;
+  padding: 20px 30px;
+  background-color: #323232;
+  border-radius: 2px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, .33);
+  transition: all .3s ease;
+  font-family: Helvetica, Arial, sans-serif;
+}
+
+.modal-header {
+  border: none;
+}
+
+.modal-footer {
+  border: none;
+}
+
+.modal-header h3 {
+  margin-top: 0;
+  color: #42b983;
+}
+
+.modal-body {
+  margin: 20px 0;
 }
 
 .modal-default-button {

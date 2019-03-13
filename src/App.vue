@@ -1,7 +1,16 @@
 <template>
-  <div id="app">
+  <div class="app">
     <top-menu class="menu"></top-menu>
-    <router-view class="router-view" />
+    <div class="app-content">
+      <nav class="navbar navbar-dark bg-dark" style="box-shadow: 0px 3px 15px rgba(0,0,0,0.2); border-bottom: 1px solid #282828; background-color: #3A4149 !important; padding: 15px;">
+        <form class="form-inline">
+          <router-link tag="button" :to="{ name: 'snippetManage' }" class="btn mr-sm-2"><i class="fa fa-plus"></i> New Snippet</router-link>
+          <button class="btn mr-sm-2" @click="showExportModal = true"><i class="fa fa-cogs"></i> Bulk Export</button>
+          <button class="btn mr-sm-2" @click="showModal = true"><i class="fa fa-ban"></i> Clear Snippets</button>
+        </form>
+      </nav>
+      <router-view class="router-view" />
+    </div>
   </div>
 </template>
 
@@ -24,16 +33,22 @@ export default {
 </script>
 
 <style>
-#app {
+.app {
   display: flex;
   height: 100%;
 }
 
-#app > .menu {
+.app > .menu {
   width: 15%;
 }
 
-#app > .router-view {
+.app > .app-content {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.app > .router-view {
   height: 100%;
   width: 100%;
   overflow-y: scroll;
@@ -45,12 +60,17 @@ body {
   margin: 0;
   padding: 0;
   color: #f7f7f7;
-  background-color: #232324;
+  background-color: #31363A;
 }
 
-.snippet-container {
-  background-color: #1e1e1e;
-  padding: 15px;
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.component {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
 }
 
 .snippet-container input[type="text"] {
@@ -72,10 +92,6 @@ body {
   border: 1px solid #252526;
   border: none;
   color: #a7a7a7;
-}
-
-.snippets-list {
-  background-color: #252526;
 }
 
 td {
@@ -112,12 +128,12 @@ a {
 }
 
 .panel-card > .header {
-  background-color: #323232;
+  background-color: #2F343A;
   padding: 15px;
 }
 
 .panel-card > .content {
-  background-color: #2a2a2a;
+  background-color: #3A4149;
   padding: 15px;
 }
 
